@@ -1,0 +1,41 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+    id 'distribution'
+}
+
+group = 'com.kingsoft'
+version = '1.0.RELEASE'
+sourceCompatibility = '1.8'
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'io.fabric8:kubernetes-client:4.11.1'
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+distributions {
+    main {
+        contents {
+            from('src/main/bin') {
+                into 'bin'
+                fileMode = 0755
+            }
+
+            from(jar) {
+                into 'lib'
+            }
+
+            from('src/main/resources') {
+                into 'conf'
+            }
+        }
+    }
+}
