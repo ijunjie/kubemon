@@ -45,6 +45,7 @@ public class KubemonApplication {
             log.info("Node count: {}", nodes.size());
             log.info("Capacity: {}", capacity);
             log.info("Allocatable: {}", allocatable);
+            log.info("Requests: {}", requests);
             log.info("CPU Percent: {}", cpuPercent);
             log.info("Memory Percent: {}", memPercent);
         };
