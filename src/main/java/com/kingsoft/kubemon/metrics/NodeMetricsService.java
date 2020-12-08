@@ -8,7 +8,6 @@ import io.fabric8.kubernetes.api.model.NodeStatus;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.PodSpec;
-import io.fabric8.kubernetes.api.model.PodStatus;
 import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.metrics.v1beta1.NodeMetrics;
@@ -107,4 +106,28 @@ public class NodeMetricsService {
                 .join();
     }
 
+    /*----------------------------*/
+    public void inspectNode(Node node) {
+        String nodeName = node.getMetadata().getName();
+
+        NodeStatus nodeStatus = node.getStatus();
+
+        Map<String, Quantity> capacityMap = nodeStatus.getCapacity();
+        QuantityAccumulator capacity = new QuantityAccumulator(capacityMap);
+
+        Map<String, Quantity> allocatableMap = nodeStatus.getAllocatable();
+        QuantityAccumulator allocatable = new QuantityAccumulator(allocatableMap);
+        // capacity=QuantityAccumulator(cpus=16, memoryGi=62.76, ephemeralStorageGi=295.17, pods=110)
+        // allocatable=QuantityAccumulator(cpus=15.890, memoryGi=57.24, ephemeralStorageGi=264.65, pods=110)
+
+        try {
+            NodeMetrics metrics = client.top().nodes().metrics(nodeName);
+            Map<String, Quantity> usageQuantity = metrics.getUsage();
+            QuantityAccumulator usage = new QuantityAccumulator(usageQuantity);
+            log.info("node={}, \n\tcapacity={},\n\t allocatable={}, \n\t usage={}",
+                    nodeName, capacity, allocatable, usage);
+        } catch (Exception e) {
+            log.error("node metrics error, skipped.", e);
+        }
+    }
 }

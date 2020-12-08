@@ -1,0 +1,76 @@
+NodeStatus(
+
+nodeInfo=NodeSystemInfo(
+  architecture=amd64, 
+  bootID=b3ffddf4-e076-4d10-97c6-39b124239870, 
+  containerRuntimeVersion=docker://18.9.2, 
+  kernelVersion=4.14.0-49.2.2.el7.ksyun.x86_64, 
+  kubeProxyVersion=v1.12.3, 
+  kubeletVersion=v1.12.3, 
+  machineID=e348bb80a8f8485780f206cfeb41281c, 
+  operatingSystem=linux, 
+  osImage=CentOS Linux 7 (Core), 
+  systemUUID=AE2C1383-ACCB-4A3B-A374-65F9D0D2CEED), 
+
+addresses=[
+  NodeAddress(address=10.77.30.100, type=InternalIP), 
+  NodeAddress(address=10.77.30.100, type=Hostname)],
+
+allocatable={cpu=15890m, ephemeral-storage=284165910875, hugepages-2Mi=0, memory=60023692Ki, pods=110}, 
+
+capacity={cpu=16, ephemeral-storage=309504832Ki, hugepages-2Mi=0,memory=65809292Ki, pods=110}, 
+ 
+conditions=[
+  NodeCondition(lastHeartbeatTime=2020-12-08T07:34:50Z, lastTransitionTime=2020-09-17T07:51:50Z, message=kubelet has sufficient disk space available, reason=KubeletHasSufficientDisk, status=False, type=OutOfDisk), 
+  NodeCondition(lastHeartbeatTime=2020-12-08T07:34:50Z, lastTransitionTime=2020-09-17T07:51:50Z, message=kubelet has sufficient memory available, reason=KubeletHasSufficientMemory, status=False, type=MemoryPressure), 
+  NodeCondition(lastHeartbeatTime=2020-12-08T07:34:50Z, lastTransitionTime=2020-09-17T07:51:50Z, message=kubelet has no disk pressure, reason=KubeletHasNoDiskPressure, status=False, type=DiskPressure), 
+  NodeCondition(lastHeartbeatTime=2020-12-08T07:34:50Z, lastTransitionTime=2020-09-17T07:51:50Z, message=kubelet has sufficient PID available, reason=KubeletHasSufficientPID, status=False, type=PIDPressure), 
+  NodeCondition(lastHeartbeatTime=2020-12-08T07:34:50Z, lastTransitionTime=2020-09-17T07:52:10Z, message=kubelet is posting ready status, reason=KubeletReady, status=True, type=Ready)],
+
+
+config=null, 
+ 
+daemonEndpoints=NodeDaemonEndpoints(kubeletEndpoint=DaemonEndpoint(port=10250)),
+
+
+phase=null, 
+volumesAttached=[], 
+volumesInUse=[]
+
+images=[
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/hive@sha256:fa88e7c6424c84566cb041c7332b5edaa3cb929e9797dd8f44f1b6f1b8b76090, hub.kce.ksyun.com/kbdp/hive:2.8], sizeBytes=2576676354), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:9fe41598f603ceb430c1bf85e88458fa15c0b118a393ef6394feebc6b034f65f, hub.kce.ksyun.com/kbdp/ds-template-query:v2.10], sizeBytes=1634909119), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:c9dc7fe48096f42d30f7b5c846f4d51f6bd7dd48866d9ca880177a7572c1298b], sizeBytes=1631950848), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:41174a4939d1f9884b6cb4009614bd1862866125503720a6523db5dd19875fe5], sizeBytes=1631950826), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:73cb14be91beec4046a0267706bbacd685d2d6d0200d5b0503f0f39c0d078a24], sizeBytes=1631950664), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:8a36d05421080b467a8187fb313743227903dbff0a69dfaa5380eb39a0590d99], sizeBytes=1631950663), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:55608c64e2d382b042c0c38874bcc221777836ada7af97687448a91f0e234964], sizeBytes=1631950620), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:3e715d36d0b81ae8fd992dba421d14521fd208a42613ef4aabc9edbbf9bf5f97, hub.kce.ksyun.com/kbdp/ds-standard-query:v2.9], sizeBytes=1631950618), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:d16b55a214e513e92ad39c76b73989c374deb3ac20234d5dc716cbbeea163c62, hub.kce.ksyun.com/kbdp/ds-template-query:v2.9], sizeBytes=1631950618), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:ef8ee2efdeba57d2c783324af6e50d194351d0735b3ba8aa094c173a14e1725f], sizeBytes=1631950359), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:0032545c3666d2a666472d76de3d457cbd5a6e7e10e158c7fe80b0df3e5dcc4e], sizeBytes=1631948509), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:8bd6c5a16001de89ecb76258c05ba5762ab1c2014373f79ba1d60fd69b676769], sizeBytes=1631948332), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:507a0e37dad28a8f85bed8e8d78d6548dbbdcb442f97c50657834962af74e8a1], sizeBytes=1631948331), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:c21d83204442c6baa2914a19a2929d7ffe9011a5d96f16d802099c0941c780e3, hub.kce.ksyun.com/kbdp/ds-template-query:v2.7], sizeBytes=1631944731), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:62ef2c025b457bfb8a0e4319ab927ead6164d5634175e10e3b697a03c799313b], sizeBytes=1631944674), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:18ae8d1dfbb9d69151279d79ec9cd74b37a1e8042b7a25f30c33f28cef99dc98], sizeBytes=1625405992), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:b3fe6b78b4d563d5f247296f8e56e65430347f51588daa8a346beb373144d75f], sizeBytes=1622334919), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:2e671b2e8f196ad6868f800e2ab7ab46e5640ea92916c30a5e51fc57859d0eda], sizeBytes=1622334617), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ranger@sha256:f730cb759661982fab8fcf56f6bdf653809f54ba85e6b9933ef2052ea9c0524c, hub.kce.ksyun.com/kbdp/ranger:1.2], sizeBytes=1524891557), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:8c95275ada92929e7d352a93f9a081efa03dcbbb82c52ccca7460a48ec12a09f], sizeBytes=1463668099), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:9702eb8a43c54e468f4b0e7b0bdff4b9ee408ad2afaf4ca9d8f52be076e69334], sizeBytes=1463659582), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-async-service@sha256:d5be5cabdd5d63bc3e7fd61e9182cb16a317b2cb16744f6cab950a8db9538652, hub.kce.ksyun.com/kbdp/ds-template-query@sha256:d5be5cabdd5d63bc3e7fd61e9182cb16a317b2cb16744f6cab950a8db9538652, hub.kce.ksyun.com/kbdp/ds-async-service:v2.9], sizeBytes=1463659526), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:def8289266e49b89cdec605a755f7700b9395c268310305f57ba5e2316d4b65b], sizeBytes=1463659313), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:b4bd8ca098fb8f4eb83dd74791b6a4fc37ccdd93afe31b0082f09139d19defc2], sizeBytes=1463648320), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-template-query@sha256:05285f8665e1837cb3a332b00c8b9508ee1ffcf9a1ec94a4bdff1db60077771a], sizeBytes=1454078263), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:2304ee38d63e58ffdd0949235a7a2ea3a4451a6343cd8b2613983a759a549d45, hub.kce.ksyun.com/kbdp/ds-template-query@sha256:2304ee38d63e58ffdd0949235a7a2ea3a4451a6343cd8b2613983a759a549d45], sizeBytes=1454073638), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:f3bac6891ff1ec203b577f59f2bac18275f553238440a5c914fcc06b5526d784, hub.kce.ksyun.com/kbdp/ds-template-query@sha256:f3bac6891ff1ec203b577f59f2bac18275f553238440a5c914fcc06b5526d784], sizeBytes=1454057011), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:5c9fcfc7b326a19eff7db287ce86c2daa2df46bad72fb4401ed06b1a191c4f67, hub.kce.ksyun.com/kbdp/ds-template-query@sha256:5c9fcfc7b326a19eff7db287ce86c2daa2df46bad72fb4401ed06b1a191c4f67], sizeBytes=1454057011), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:a5410d89c7f6264c6417963e20cdb75ada245dd3d57b3dc06444aa293fded095, hub.kce.ksyun.com/kbdp/ds-standard-query:v2.8], sizeBytes=1454056960), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-async-service@sha256:b8001c96f1f0e5687c25252860d9d77968edc553763d654055e96e1f22c01a92, hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:b8001c96f1f0e5687c25252860d9d77968edc553763d654055e96e1f22c01a92, hub.kce.ksyun.com/kbdp/ds-template-query@sha256:b8001c96f1f0e5687c25252860d9d77968edc553763d654055e96e1f22c01a92], sizeBytes=1436862967), ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:06fe5f1152ab2383d2461b73aadf5456364879e8fa261b2f817c8265a43681fc], sizeBytes=1436862963), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:e4b212bb1d746ee392143149d95482ab5cc3de46709b4681183c73cdb11c7d01], sizeBytes=1436862954), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:3800ace8531805f7cb6f95028826d942c68a524b228e2b35100621e09b4ce7ad], sizeBytes=1436862953), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:5a5bcf76347fe4136eb08c1ab21abb3c0621c0d93d79339b9781a15760a8482f], sizeBytes=1436862923), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:2f4ea254788b561618aff7d9be2ce957400021e04b1093e06e8ecba660050f98], sizeBytes=1436862923), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:a0a9cb4d6c2a26d4afa7b0ad06c31079a13871f51db4ce0c15c420e37b95f8b6], sizeBytes=1436862498), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:27175d08638ca9a6591fb814a5b0d9d601c4551c2835c168d3c95fa309c537e8], sizeBytes=1436862415), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:689dda53a522786846ee320e49c00519e8e2d8a1c2885122ff992c84fbb8daa9], sizeBytes=1436861937), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:2afc5d696dca2aa132a3e994f9fe5e40dbdfb55681d192c505a5360e3b6edb7e], sizeBytes=1436861415), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:b43f7caabcd7bf4edaa72c021aa8c0c32321f2e5cc81efd4cbfd302c807bf99c], sizeBytes=1436843933), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:86d932bc019788d5f912c3c45f1043d69192fb7883adeec4032980f2c768bfab], sizeBytes=1436547613), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:b9c639a23794c3e4fcc15f71a8af347c4d81bcaadaab905a95bf92c2d1910108], sizeBytes=1431481585), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:92aa100b1edc9bc68eabb849a48089786ac411c8d7b37ba9a175fb0986e2d3b5], sizeBytes=1328367908), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:2a712adc27dae20c661108682c7ea4e59c7c23562e4c3a360d4928a13874cf7e], sizeBytes=1328367893), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:17cdd269f0480c40bc03a9770ca87b741984a6fbf193652209d2174c6b192958], sizeBytes=1328367884), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:cc5daa634c7baf51c0a558e7d11410cc0515ae0cc9db08ca171883186f205fdc], sizeBytes=1328367870), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:bd917a8a735e3c9b085edffb0caeb0b54eb168366b2d0a2368a6cbb4a4b14642], sizeBytes=1328367719), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:9c6f91010ef9b6268043e2ed02723530ef739a7db2342e7a8b130b724a3fc7ee], sizeBytes=1328367686), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:9d61941e69800c1fddad2f4166af55fe0c46f89b6e95e188237daf27bc637b31], sizeBytes=1328366976), 
+ContainerImage(names=[hub.kce.ksyun.com/kbdp/ds-standard-query@sha256:35e5ac3dab708f29ba877ebe1e0d2dc4890d7940eb2e082b1b2230e23d32b060], sizeBytes=1328366975)]
+)

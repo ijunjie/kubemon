@@ -18,7 +18,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-json'
     implementation 'io.fabric8:kubernetes-client:4.11.1'
-    implementation 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok:1.18.16'
     implementation("com.typesafe.play:play-ahc-ws-standalone_2.13:2.1.2") {
         exclude group: "org.scala-lang", module: "scala-library"
     }

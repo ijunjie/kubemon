@@ -30,8 +30,8 @@ public class KubemonApplication {
 
     @Autowired
     NodeMetricsService nodeMetricsService;
-    @Value("${schedule-enabled:false}")
-    boolean scheduleEnabled;
+    @Value("${node-inspect-enabled:false}")
+    boolean nodeInspectEnabled;
 
     @Bean
     public CommandLineRunner commandLineRunner() {
@@ -42,21 +42,22 @@ public class KubemonApplication {
             QuantityAccumulator requests = nodeMetricsService.allPodsRequests();
             int cpuPercent = requests.cpuProportion(allocatable);
             int memPercent = requests.memoryProportion(allocatable);
-            log.info("Node count: {}", nodes.size());
-            log.info("Capacity: {}", capacity);
-            log.info("Allocatable: {}", allocatable);
-            log.info("Requests: {}", requests);
-            log.info("CPU Percent: {}", cpuPercent);
-            log.info("Memory Percent: {}", memPercent);
+            log.info("Cluster Node count: {}", nodes.size());
+            log.info("Cluster Capacity: {}", capacity);
+            log.info("Cluster Allocatable: {}", allocatable);
+            log.info("Cluster Requests: {}", requests);
+            log.info("Cluster CPU Percent: {}", cpuPercent);
+            log.info("Cluster Memory Percent: {}", memPercent);
         };
     }
 
-    @Scheduled(fixedDelayString = "${scrape-interval-milliseconds:300000}")
+    @Scheduled(initialDelay = 30000, fixedDelayString = "${scrape-interval-milliseconds:300000}")
     public void schedule() {
-        if (scheduleEnabled) {
+        if (nodeInspectEnabled) {
             List<Node> nodes = nodeMetricsService.nodes();
-            QuantityAccumulator usage = nodeMetricsService.usage(nodes);
-            log.info("usage total: {}", usage);
+            for (Node node : nodes) {
+                nodeMetricsService.inspectNode(node);
+            }
         }
     }
 }

@@ -1,0 +1,9 @@
+NodeSpec(
+  configSource=null,
+  externalID=null,
+  podCIDR=10.0.15.0/25,
+  podCIDRs=[],
+  providerID=null,
+  taints=[],
+  unschedulable=null,
+  additionalProperties={})
