@@ -124,7 +124,7 @@ public class NodeMetricsService {
             NodeMetrics metrics = client.top().nodes().metrics(nodeName);
             Map<String, Quantity> usageQuantity = metrics.getUsage();
             QuantityAccumulator usage = new QuantityAccumulator(usageQuantity);
-            log.info("node={}, \n\tcapacity={},\n\t allocatable={}, \n\t usage={}",
+            log.info("\n\tnode={}, \n\tcapacity={},\n\tallocatable={}, \n\tusage={}",
                     nodeName, capacity, allocatable, usage);
         } catch (Exception e) {
             log.error("node metrics error, skipped.", e);
