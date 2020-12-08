@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +35,11 @@ public class NodeMetricsService {
     DefaultKubernetesClient client;
 
     ForkJoinPool forkJoinPool = new ForkJoinPool(16);
+
+    public String masterUrl() {
+        URL masterUrl = client.getMasterUrl();
+        return masterUrl.toString();
+    }
 
     public QuantityAccumulator allPodsRequests() {
         List<Pod> pods = client.pods().inAnyNamespace().list().getItems();

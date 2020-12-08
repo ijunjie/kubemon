@@ -36,18 +36,16 @@ public class KubemonApplication {
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
+            String masterUrl = nodeMetricsService.masterUrl();
             List<Node> nodes = nodeMetricsService.nodes();
             QuantityAccumulator capacity = nodeMetricsService.capacity(nodes);
             QuantityAccumulator allocatable = nodeMetricsService.allocatable(nodes);
             QuantityAccumulator requests = nodeMetricsService.allPodsRequests();
             int cpuPercent = requests.cpuProportion(allocatable);
             int memPercent = requests.memoryProportion(allocatable);
-            log.info("Cluster Node count: {}", nodes.size());
-            log.info("Cluster Capacity: {}", capacity);
-            log.info("Cluster Allocatable: {}", allocatable);
-            log.info("Cluster Requests: {}", requests);
-            log.info("Cluster CPU Percent: {}", cpuPercent);
-            log.info("Cluster Memory Percent: {}", memPercent);
+            log.info("\n\tcluster={}, \n\tcluster-node-count={}, \n\tcluster-capacity={}, \n\tcluster-allocatable={}, " +
+                            "\n\tcluster-requests={}, \n\tcluster-cpu-request-percent={}, \n\tcluster-mem-request-percent={}",
+                    masterUrl, nodes.size(), capacity, allocatable, requests, cpuPercent, memPercent);
         };
     }
 
