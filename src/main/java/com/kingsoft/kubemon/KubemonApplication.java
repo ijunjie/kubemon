@@ -1,7 +1,6 @@
 package com.kingsoft.kubemon;
 
-import com.kingsoft.kubemon.metrics.NodeMetricsService;
-import com.kingsoft.kubemon.metrics.QuantityAccumulator;
+import com.kingsoft.kubemon.metrics.KubernetesMetricsService;
 import io.fabric8.kubernetes.api.model.Node;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +28,14 @@ public class KubemonApplication {
     }
 
     @Autowired
-    NodeMetricsService nodeMetricsService;
+    KubernetesMetricsService nodeMetricsService;
     @Value("${node-inspect-enabled:false}")
     boolean nodeInspectEnabled;
 
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
-            String masterUrl = nodeMetricsService.masterUrl();
+            /*String masterUrl = nodeMetricsService.masterUrl();
             List<Node> nodes = nodeMetricsService.nodes();
             QuantityAccumulator capacity = nodeMetricsService.capacity(nodes);
             QuantityAccumulator allocatable = nodeMetricsService.allocatable(nodes);
@@ -45,7 +44,9 @@ public class KubemonApplication {
             int memPercent = requests.memoryProportion(allocatable);
             log.info("\n\tcluster={}, \n\tcluster-node-count={}, \n\tcluster-capacity={}, \n\tcluster-allocatable={}, " +
                             "\n\tcluster-requests={}, \n\tcluster-cpu-request-percent={}, \n\tcluster-mem-request-percent={}",
-                    masterUrl, nodes.size(), capacity, allocatable, requests, cpuPercent, memPercent);
+                    masterUrl, nodes.size(), capacity, allocatable, requests, cpuPercent, memPercent);*/
+            //nodeMetricsService.podInspect();
+            //nodeMetricsService.podMetrics();
         };
     }
 

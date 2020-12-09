@@ -1,0 +1,166 @@
+Pod
+-----
+apiVersion=v1,
+kind=Pod,
+
+-----
+status=PodStatus(
+    conditions=[
+        PodCondition(lastProbeTime=null, lastTransitionTime=2020-11-16T09:39:51Z, message=null, reason=null, status=True, type=Initialized, additionalProperties={}),
+        PodCondition(lastProbeTime=null, lastTransitionTime=2020-11-16T09:40:51Z, message=null, reason=null, status=True, type=Ready, additionalProperties={}),
+        PodCondition(lastProbeTime=null, lastTransitionTime=2020-11-16T09:40:51Z, message=null, reason=null, status=True, type=ContainersReady, additionalProperties={}),
+        PodCondition(lastProbeTime=null, lastTransitionTime=2020-11-16T09:39:51Z, message=null, reason=null, status=True, type=PodScheduled, additionalProperties={})
+    ],
+    containerStatuses=[ContainerStatus(
+        containerID=docker://dbb3834e54050627e3bdcade1cf592df244d3f6ba17779c9890195bda9bc3af3,
+        image=hub.kce.ksyun.com/kbdp/meta-mg:dv2.5.1,
+        imageID=docker-pullable://hub.kce.ksyun.com/kbdp/meta-mg@sha256:a3e49e5620ca1675186f97c87cbd7dfe0c57a6f11dec9b5f7f2e452aca1f6070,
+        lastState=ContainerState(running=null, terminated=null, waiting=null, additionalProperties={}),
+        name=dmmetadatamg,
+        ready=true,
+        restartCount=0,
+        started=null,
+        state=ContainerState(running=ContainerStateRunning(startedAt=2020-11-16T09:39:52Z, additionalProperties={}),terminated=null,waiting=null,additionalProperties={}),
+        additionalProperties={})
+    ],
+    ephemeralContainerStatuses=[],
+    hostIP=10.77.30.71,
+    initContainerStatuses=[],
+    message=null,
+    nominatedNodeName=null,
+    phase=Running,
+    podIP=10.0.1.2,
+    podIPs=[],
+    qosClass=Burstable,
+    reason=null,
+    startTime=2020-11-16T09:39:51Z,
+    additionalProperties={}
+),
+
+-----
+metadata=ObjectMeta(
+  annotations={cni.projectcalico.org/podIP=10.0.1.2/32},
+  clusterName=null,
+  creationTimestamp=2020-11-16T09:39:51Z,
+  deletionGracePeriodSeconds=null,
+  deletionTimestamp=null,
+  finalizers=[],
+  generateName=dm-metadata-mg-cc587fd76-,
+  generation=null,
+  labels={app=dm-metadata-mg,ksyun/recreate-pods=R-1,pod-template-hash=cc587fd76},
+  managedFields=[],
+  name=dm-metadata-mg-cc587fd76-rbt9h,
+  namespace=03c6b06952c750899bb03d998e631860,
+  ownerReferences=[OwnerReference(
+      apiVersion=apps/v1,
+      blockOwnerDeletion=true,
+      controller=true,
+      kind=ReplicaSet,
+      name=dm-metadata-mg-cc587fd76,
+      uid=ac996fd0-27ef-11eb-af49-fa163e31a150,
+      additionalProperties={})
+  ],
+  resourceVersion=114518407,
+  selfLink=/api/v1/namespaces/03c6b06952c750899bb03d998e631860/pods/dm-metadata-mg-cc587fd76-rbt9h,
+  uid=ac9a062f-27ef-11eb-af49-fa163e31a150,
+  additionalProperties={}
+),
+
+
+-----
+spec=PodSpec(
+    activeDeadlineSeconds=null,
+    affinity=null,
+    automountServiceAccountToken=null,
+    containers=[Container(
+        args=[],
+        command=[bash, -c, java -jar /data/lib/dm-metadata-mg-0.0.1-SNAPSHOT.jar  2>&1],
+        env=[],
+        envFrom=[],
+        image=hub.kce.ksyun.com/kbdp/meta-mg:dv2.5.1,
+        imagePullPolicy=Always,
+        lifecycle=null,
+        livenessProbe=Probe(
+          exec=null,
+          failureThreshold=3,
+          httpGet=HTTPGetAction(host=null,httpHeaders=[],path=/dmgMdMg/health/version,port=IntOrString(IntVal=9081, Kind=0, StrVal=null, additionalProperties={}),scheme=HTTP,additionalProperties={}),
+          initialDelaySeconds=360,
+          periodSeconds=10,
+          successThreshold=1,
+          tcpSocket=null,
+          timeoutSeconds=1,
+          additionalProperties={}
+        ),
+        name=dmmetadatamg,
+        ports=[ContainerPort(
+          containerPort=9081,
+          hostIP=null,
+          hostPort=null,
+          name=null,
+          protocol=TCP,
+          additionalProperties={})],
+        readinessProbe=Probe(exec=null,
+          failureThreshold=3,
+          httpGet=HTTPGetAction(host=null,httpHeaders=[],path=/dmgMdMg/health/version,port=IntOrString(IntVal=9081, Kind=0, StrVal=null, additionalProperties={}),scheme=HTTP, additionalProperties={}),
+          initialDelaySeconds=30,
+          periodSeconds=10,
+          successThreshold=1,
+          tcpSocket=null,
+          timeoutSeconds=1,
+          additionalProperties={}
+        ),
+        resources=ResourceRequirements(limits={cpu=2, memory=8Gi},requests={cpu=500m, memory=2Gi},additionalProperties={}),
+        securityContext=null,
+        startupProbe=null,
+        stdin=null,
+        stdinOnce=null,
+        terminationMessagePath=/dev/termination-log,
+        terminationMessagePolicy=File,
+        tty=null,
+        volumeDevices=[],
+        volumeMounts=[
+            VolumeMount(mountPath=/data/conf/,mountPropagation=null,name=config-map,readOnly=null,subPath=null,subPathExpr=null,additionalProperties={}),
+            VolumeMount(mountPath=/data/logs, mountPropagation=null, name=logs, readOnly=null, subPath=null, subPathExpr=null, additionalProperties={}),
+            VolumeMount(mountPath=/etc/localtime, mountPropagation=null, name=host-time, readOnly=true, subPath=null, subPathExpr=null, additionalProperties={}),
+            VolumeMount(mountPath=/etc/krb5.conf, mountPropagation=null, name=krb5-config, readOnly=null, subPath=krb5.conf, subPathExpr=null, additionalProperties={}),
+            VolumeMount(mountPath=/var/run/secrets/kubernetes.io/serviceaccount, mountPropagation=null, name=default-token-lvc8p, readOnly=true, subPath=null, subPathExpr=null, additionalProperties={})
+        ],
+        workingDir=null, additionalProperties={}
+    )],
+    dnsConfig=null,
+    dnsPolicy=ClusterFirst,
+    enableServiceLinks=null,
+    ephemeralContainers=[],
+    hostAliases=[],
+    hostIPC=null,
+    hostNetwork=null,
+    hostPID=null,
+    hostname=null,
+    imagePullSecrets=[LocalObjectReference(name=ksyunregistrykey, additionalProperties={})],
+    initContainers=[],
+    nodeName=10.77.30.71,
+    nodeSelector=null,
+    overhead=null,
+    preemptionPolicy=null,
+    priority=null,
+    priorityClassName=null,
+    readinessGates=[],
+    restartPolicy=Always,
+    runtimeClassName=null,
+    schedulerName=default-scheduler,
+    securityContext=PodSecurityContext(fsGroup=null,fsGroupChangePolicy=null,runAsGroup=null,runAsNonRoot=null,runAsUser=null,seLinuxOptions=null,seccompProfile=null,supplementalGroups=[],sysctls=[],windowsOptions=null,additionalProperties={}),
+    serviceAccount=default,
+    serviceAccountName=default,
+    setHostnameAsFQDN=null,
+    shareProcessNamespace=null,
+    subdomain=null,
+    terminationGracePeriodSeconds=30,
+    tolerations=[],
+    topologySpreadConstraints=[],
+    volumes=[
+        Volume(awsElasticBlockStore=null,azureDisk=null,azureFile=null,cephfs=null,cinder=null,configMap=null,csi=null,downwardAPI=null,emptyDir=null,ephemeral=null,fc=null,flexVolume=null,flocker=null,gcePersistentDisk=null,gitRepo=null,glusterfs=null,hostPath=HostPathVolumeSource(path=/etc/localtime,type=,additionalProperties={}),iscsi=null,name=host-time,nfs=null,persistentVolumeClaim=null,photonPersistentDisk=null,portworxVolume=null,projected=null,quobyte=null,rbd=null,scaleIO=null,secret=null,storageos=null,vsphereVolume=null,additionalProperties={}),
+        Volume(awsElasticBlockStore=null, azureDisk=null, azureFile=null, cephfs=null, cinder=null, configMap=null, csi=null, downwardAPI=null, emptyDir=EmptyDirVolumeSource(medium=null, sizeLimit=null, additionalProperties={}), ephemeral=null, fc=null, flexVolume=null, flocker=null, gcePersistentDisk=null, gitRepo=null, glusterfs=null, hostPath=null, iscsi=null, name=logs, nfs=null, persistentVolumeClaim=null, photonPersistentDisk=null, portworxVolume=null, projected=null, quobyte=null, rbd=null, scaleIO=null, secret=null, storageos=null, vsphereVolume=null, additionalProperties={}), Volume(awsElasticBlockStore=null, azureDisk=null, azureFile=null, cephfs=null, cinder=null, configMap=ConfigMapVolumeSource(defaultMode=420, items=[], name=meta-mg, optional=null, additionalProperties={}), csi=null, downwardAPI=null, emptyDir=null, ephemeral=null, fc=null, flexVolume=null, flocker=null, gcePersistentDisk=null, gitRepo=null, glusterfs=null, hostPath=null, iscsi=null, name=config-map, nfs=null, persistentVolumeClaim=null, photonPersistentDisk=null, portworxVolume=null, projected=null, quobyte=null, rbd=null, scaleIO=null, secret=null, storageos=null, vsphereVolume=null, additionalProperties={}), Volume(awsElasticBlockStore=null, azureDisk=null, azureFile=null, cephfs=null, cinder=null, configMap=ConfigMapVolumeSource(defaultMode=420, items=[], name=kerbros-conf, optional=null, additionalProperties={}), csi=null, downwardAPI=null, emptyDir=null, ephemeral=null, fc=null, flexVolume=null, flocker=null, gcePersistentDisk=null, gitRepo=null, glusterfs=null, hostPath=null, iscsi=null, name=krb5-config, nfs=null, persistentVolumeClaim=null, photonPersistentDisk=null, portworxVolume=null, projected=null, quobyte=null, rbd=null, scaleIO=null, secret=null, storageos=null, vsphereVolume=null, additionalProperties={}),
+        Volume(awsElasticBlockStore=null, azureDisk=null, azureFile=null, cephfs=null, cinder=null, configMap=null, csi=null, downwardAPI=null, emptyDir=null, ephemeral=null, fc=null, flexVolume=null, flocker=null, gcePersistentDisk=null, gitRepo=null, glusterfs=null, hostPath=null, iscsi=null, name=default-token-lvc8p, nfs=null, persistentVolumeClaim=null, photonPersistentDisk=null,portworxVolume=null, projected=null, quobyte=null, rbd=null, scaleIO=null,secret=SecretVolumeSource(defaultMode=420, items=[],optional=null, secretName=default-token-lvc8p, additionalProperties={}),storageos=null, vsphereVolume=null, additionalProperties={})
+    ],
+    additionalProperties={}
+)

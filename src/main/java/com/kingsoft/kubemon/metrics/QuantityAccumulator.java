@@ -1,5 +1,7 @@
 package com.kingsoft.kubemon.metrics;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.kingsoft.kubemon.ahc.Json;
 import io.fabric8.kubernetes.api.model.Quantity;
 
 import java.math.BigDecimal;
@@ -137,5 +139,18 @@ public class QuantityAccumulator {
                 ", memoryGi=" + this.getMemoryGi() +
                 ", ephemeralStorageGi=" + this.getEphemeralStorageGi() +
                 ", pods=" + this.getPods() + ")";
+    }
+
+    public String toJsonStr() {
+        ObjectNode obj = Json.newObject();
+        obj.put("cpus", this.getCpus());
+        obj.put("memoryGi", this.getMemoryGi());
+        if (this.getEphemeralStorageGi().compareTo(BigDecimal.ZERO) > 0) {
+            obj.put("ephemeralStorageGi", this.getEphemeralStorage());
+        }
+        if (this.getPods().compareTo(BigDecimal.ZERO) > 0) {
+            obj.put("pods", this.getPods());
+        }
+        return Json.stringify(obj);
     }
 }
