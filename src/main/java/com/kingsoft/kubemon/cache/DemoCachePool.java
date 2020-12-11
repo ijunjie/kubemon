@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class FooCachePool extends CachePool<String, Integer> {
+public class DemoCachePool extends CachePool<String, Integer> {
 
-    public FooCachePool() {
+    public DemoCachePool() {
         super();
     }
 
