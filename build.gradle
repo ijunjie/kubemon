@@ -24,6 +24,7 @@ dependencies {
     }
     implementation("com.typesafe.play:play-ws-standalone-json_2.13:2.1.2")
     annotationProcessor 'org.projectlombok:lombok'
+    compile 'com.google.guava:guava:20.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

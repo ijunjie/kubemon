@@ -35,7 +35,10 @@ public class KubemonApplication {
         };
     }
 
-    @Scheduled(initialDelay = 30000, fixedDelayString = "${schedule-interval-milliseconds:60000}")
+    //@Autowired
+    //FooCachePool fooCachePool;
+
+    @Scheduled(initialDelay = 5000, fixedDelayString = "${schedule-interval-milliseconds:60000}")
     public void schedule() {
         if (scheduleTaskEnabled) {
             // do something
