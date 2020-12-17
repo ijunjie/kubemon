@@ -1,13 +1,16 @@
 package com.kingsoft.kubemon.cache;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.cache.RemovalListener;
+//import com.google.common.cache.CacheBuilder;
+//import com.google.common.cache.CacheLoader;
+//import com.google.common.cache.LoadingCache;
+//import com.google.common.cache.RemovalListener;
+
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.kingsoft.kubemon.function.F;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -16,16 +19,11 @@ public abstract class CachePool<K, V> {
     protected LoadingCache<K, V> loadingCache;
 
     public CachePool() {
-        this.loadingCache = CacheBuilder.newBuilder()
+        this.loadingCache = Caffeine.newBuilder()
                 .initialCapacity(initialCapacity())
                 .removalListener(removalListener())
                 .expireAfterWrite(expireAfterWrite()._1, expireAfterWrite()._2)
-                .build(new CacheLoader<K, V>() {
-                    @Override
-                    public V load(K key) throws Exception {
-                        return loadValue(key);
-                    }
-                });
+                .build(this::loadValue);
     }
 
     public abstract int initialCapacity();
@@ -39,7 +37,7 @@ public abstract class CachePool<K, V> {
     public V get(K k) {
         try {
             return loadingCache.get(k);
-        } catch (ExecutionException e) {
+        } catch (Exception e) {
             log.error("", e);
             return loadValue(k);
         }

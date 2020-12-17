@@ -1,5 +1,6 @@
 package com.kingsoft.kubemon;
 
+import com.kingsoft.kubemon.cache.DemoCachePool;
 import com.kingsoft.kubemon.metrics.KubernetesMetricsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +36,14 @@ public class KubemonApplication {
         };
     }
 
-    //@Autowired
-    //FooCachePool fooCachePool;
+    @Autowired
+    DemoCachePool demoCachePool;
 
     @Scheduled(initialDelay = 5000, fixedDelayString = "${schedule-interval-milliseconds:60000}")
     public void schedule() {
         if (scheduleTaskEnabled) {
-            // do something
+            Integer length = demoCachePool.get("aaa");
+            System.out.println(length);
         }
     }
 }

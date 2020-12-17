@@ -1,6 +1,6 @@
 package com.kingsoft.kubemon.cache;
 
-import com.google.common.cache.RemovalListener;
+import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.kingsoft.kubemon.function.F;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class DemoCachePool extends CachePool<String, Integer> {
 
     @Override
     public RemovalListener<String, Integer> removalListener() {
-        return notification -> {
+        return (k, v, cause) -> {
             log.info(">>>>>>>>>>>>>>>>removal");
         };
     }
