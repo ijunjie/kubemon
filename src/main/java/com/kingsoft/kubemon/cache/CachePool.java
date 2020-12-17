@@ -1,10 +1,5 @@
 package com.kingsoft.kubemon.cache;
 
-//import com.google.common.cache.CacheBuilder;
-//import com.google.common.cache.CacheLoader;
-//import com.google.common.cache.LoadingCache;
-//import com.google.common.cache.RemovalListener;
-
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.github.benmanes.caffeine.cache.RemovalListener;
