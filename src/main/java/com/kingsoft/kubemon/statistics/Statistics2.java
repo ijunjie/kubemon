@@ -8,10 +8,10 @@ import lombok.ToString;
 
 import java.util.stream.Collector;
 
-public interface Statistics2<T> {
-    Tuple<T> asTuple2();
+public interface Statistics2 {
+    Tuple<Long> asTuple2();
 
-    static Collector<Statistics2<Long>, R, R> collector() {
+    static Collector<Statistics2, R, R> collector() {
         return Collector.of(R::new,
                 (r, t) -> r.accept(t.asTuple2()),
                 (l, r) -> {

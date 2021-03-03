@@ -26,7 +26,7 @@ public class StatisticsTest {
 
     @RequiredArgsConstructor(staticName = "of")
     @Getter
-    public static class Foo implements Statistics4<Long> {
+    public static class Foo implements Statistics4 {
         final long a;
         final long b;
         final long c;
