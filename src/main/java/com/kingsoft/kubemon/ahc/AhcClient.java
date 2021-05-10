@@ -11,7 +11,6 @@ import play.libs.ws.DefaultBodyReadables;
 import play.libs.ws.DefaultBodyWritables;
 import play.libs.ws.StandaloneWSResponse;
 import play.libs.ws.ahc.StandaloneAhcWSClient;
-import play.shaded.ahc.org.asynchttpclient.AsyncHttpClient;
 import play.shaded.ahc.org.asynchttpclient.AsyncHttpClientConfig;
 import play.shaded.ahc.org.asynchttpclient.DefaultAsyncHttpClient;
 import play.shaded.ahc.org.asynchttpclient.DefaultAsyncHttpClientConfig;
@@ -64,12 +63,13 @@ public class AhcClient implements DisposableBean, DefaultBodyWritables, DefaultB
                         .setKeepAlive(true)
                         .setMaxConnectionsPerHost(-1)
                         .setMaxConnections(-1)
+                        .setFollowRedirect(true)
                         .setMaxRedirects(5)
                         .setMaxRequestRetry(0)
                         .setShutdownQuietPeriod(0)
                         .setShutdownTimeout(0)
                         .build();
-        AsyncHttpClient asyncHttpClient = new DefaultAsyncHttpClient(asyncHttpClientConfig);
+        DefaultAsyncHttpClient asyncHttpClient = new DefaultAsyncHttpClient(asyncHttpClientConfig);
         standaloneAhcWSClient = new StandaloneAhcWSClient(asyncHttpClient, materializer);
         log.info("AhcClient constructed");
     }
