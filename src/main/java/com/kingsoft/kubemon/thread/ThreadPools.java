@@ -34,7 +34,7 @@ public class ThreadPools {
         threadPoolExecutor.allowCoreThreadTimeOut(true);
         Runtime.getRuntime().addShutdownHook(
                 new ShutdownHookThread("CPUIntenseThreadPool",
-                        () -> shutdownThreadPoolGracefully(threadPoolExecutor)));
+                        shutdownThreadPoolGracefully(threadPoolExecutor)));
         return threadPoolExecutor;
     }
 
