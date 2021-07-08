@@ -13,8 +13,6 @@ import java.util.concurrent.locks.LockSupport;
 @Slf4j
 public class ThreadPools {
 
-    private static final String THREAD_NAME_PREFIX = "apppool";
-
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
     private static final int KEEP_ALIVE_SECONDS = 30;
     private static final int QUEUE_SIZE = 10000;
@@ -25,32 +23,77 @@ public class ThreadPools {
     private static final int MIXED_MAX = 128;  //最大线程数
     public static final String MIXED_THREAD_AMOUNT = "mixed.thread.amount";
 
-    public static ThreadPoolExecutor getCpuIntenseThreadPool() {
-        return CpuIntenseThreadPoolHolder.EXECUTOR;
+    public static ThreadPoolExecutor getCpuIntenseThreadPool(String prefix) {
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                MAXIMUM_POOL_SIZE,
+                MAXIMUM_POOL_SIZE,
+                KEEP_ALIVE_SECONDS,
+                TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(QUEUE_SIZE),
+                new CustomThreadFactory(prefix, "cpu"));
+        threadPoolExecutor.allowCoreThreadTimeOut(true);
+        Runtime.getRuntime().addShutdownHook(
+                new ShutdownHookThread("CPUIntenseThreadPool",
+                        () -> shutdownThreadPoolGracefully(threadPoolExecutor)));
+        return threadPoolExecutor;
     }
 
-    public static ThreadPoolExecutor getIoIntenseThreadPool() {
-        return IoIntenseThreadPoolHolder.EXECUTOR;
+    public static ThreadPoolExecutor getIoIntenseThreadPool(String prefix) {
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                IO_MAX,
+                IO_MAX,
+                KEEP_ALIVE_SECONDS,
+                TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(QUEUE_SIZE),
+                new CustomThreadFactory(prefix, "io"));
+        threadPoolExecutor.allowCoreThreadTimeOut(true);
+        Runtime.getRuntime().addShutdownHook(
+                ShutdownHookThread.of("IOIntenseThreadPool",
+                        shutdownThreadPoolGracefully(threadPoolExecutor)));
+        return threadPoolExecutor;
     }
 
-    public static ThreadPoolExecutor getMixedThreadPool() {
-        return MixedThreadPoolHolder.EXECUTOR;
+    public static ThreadPoolExecutor getMixedThreadPool(String prefix) {
+        //如果没有对 mixed.thread.amount 做配置，则使用常量 MIXED_MAX 作为线程数
+        final int max = null != System.getProperty(MIXED_THREAD_AMOUNT)
+                ? Integer.parseInt(System.getProperty(MIXED_THREAD_AMOUNT))
+                : MIXED_MAX;
+        final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                max,
+                max,
+                KEEP_ALIVE_SECONDS,
+                TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(QUEUE_SIZE),
+                new CustomThreadFactory(prefix, "mixed"));
+        threadPoolExecutor.allowCoreThreadTimeOut(true);
+        Runtime.getRuntime().addShutdownHook(
+                ShutdownHookThread.of("MixedThreadPool",
+                        shutdownThreadPoolGracefully(threadPoolExecutor)));
+        return threadPoolExecutor;
     }
 
-    public static ScheduledThreadPoolExecutor getSeqOrScheduledExecutor() {
-        return SeqOrScheduledThreadPoolHolder.EXECUTOR;
+    public static ScheduledThreadPoolExecutor getSeqOrScheduledExecutor(String prefix) {
+        final ScheduledThreadPoolExecutor threadPoolExecutor = new ScheduledThreadPoolExecutor(
+                1,
+                new CustomThreadFactory(prefix, "seq"));
+        Runtime.getRuntime().addShutdownHook(
+                ShutdownHookThread.of("SeqOrScheduledThreadPool",
+                        shutdownThreadPoolGracefully(threadPoolExecutor)));
+        return threadPoolExecutor;
     }
 
-    public static void executeOrdered(Runnable command) {
-        getSeqOrScheduledExecutor().execute(command);
+    public static void executeOrdered(ScheduledThreadPoolExecutor executor, Runnable command) {
+        executor.execute(command);
     }
 
-    public static void schedule(Runnable command, int i, TimeUnit unit) {
-        getSeqOrScheduledExecutor().schedule(command, i, unit);
+    public static void schedule(ScheduledThreadPoolExecutor executor,
+                                Runnable command, int i, TimeUnit unit) {
+        executor.schedule(command, i, unit);
     }
 
-    public static void scheduleAtFixedRate(Runnable command, int i, TimeUnit unit) {
-        getSeqOrScheduledExecutor().scheduleAtFixedRate(command, i, i, unit);
+    public static void scheduleAtFixedRate(ScheduledThreadPoolExecutor executor,
+                                           Runnable command, int i, TimeUnit unit) {
+        executor.scheduleAtFixedRate(command, i, i, unit);
     }
 
     public static void sleepSeconds(int second) {
@@ -101,76 +144,6 @@ public class ThreadPools {
         return Thread.currentThread().getStackTrace()[level].getMethodName();//调用的类名
     }
 
-    private static class CpuIntenseThreadPoolHolder {
-        private static final ThreadPoolExecutor EXECUTOR = new ThreadPoolExecutor(
-                MAXIMUM_POOL_SIZE,
-                MAXIMUM_POOL_SIZE,
-                KEEP_ALIVE_SECONDS,
-                TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(QUEUE_SIZE),
-                new CustomThreadFactory("cpu"));
-
-        static {
-            EXECUTOR.allowCoreThreadTimeOut(true);
-            Runtime.getRuntime().addShutdownHook(
-                    new ShutdownHookThread("CPUIntenseThreadPool",
-                            () -> shutdownThreadPoolGracefully(EXECUTOR)));
-        }
-    }
-
-    private static class IoIntenseThreadPoolHolder {
-        private static final ThreadPoolExecutor EXECUTOR = new ThreadPoolExecutor(
-                IO_MAX,
-                IO_MAX,
-                KEEP_ALIVE_SECONDS,
-                TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(QUEUE_SIZE),
-                new CustomThreadFactory("io"));
-
-        static {
-            EXECUTOR.allowCoreThreadTimeOut(true);
-            Runtime.getRuntime().addShutdownHook(
-                    ShutdownHookThread.of("IOIntenseThreadPool",
-                            shutdownThreadPoolGracefully(EXECUTOR)));
-        }
-    }
-
-    private static class MixedThreadPoolHolder {
-        //首先从环境变量 mixed.thread.amount 中获取预先配置的线程数
-        //如果没有对 mixed.thread.amount 做配置，则使用常量 MIXED_MAX 作为线程数
-        private static final int max = null != System.getProperty(MIXED_THREAD_AMOUNT)
-                ? Integer.parseInt(System.getProperty(MIXED_THREAD_AMOUNT))
-                : MIXED_MAX;
-        private static final ThreadPoolExecutor EXECUTOR = new ThreadPoolExecutor(
-                max,
-                max,
-                KEEP_ALIVE_SECONDS,
-                TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(QUEUE_SIZE),
-                new CustomThreadFactory("mixed"));
-
-        static {
-            EXECUTOR.allowCoreThreadTimeOut(true);
-            Runtime.getRuntime().addShutdownHook(
-                    ShutdownHookThread.of("MixedThreadPool",
-                            shutdownThreadPoolGracefully(EXECUTOR)));
-        }
-    }
-
-
-    static class SeqOrScheduledThreadPoolHolder {
-        //线程池：用于定时任务、顺序排队执行任务
-        static final ScheduledThreadPoolExecutor EXECUTOR = new ScheduledThreadPoolExecutor(
-                1,
-                new CustomThreadFactory("seq"));
-
-        static {
-            Runtime.getRuntime().addShutdownHook(
-                    ShutdownHookThread.of("SeqOrScheduledThreadPool",
-                            shutdownThreadPoolGracefully(EXECUTOR)));
-        }
-
-    }
 
     private static class CustomThreadFactory implements ThreadFactory {
         private static final AtomicInteger poolNumber = new AtomicInteger(1);
@@ -179,13 +152,13 @@ public class ThreadPools {
         private final AtomicInteger threadNumber = new AtomicInteger(1);
         private final String threadTag;
 
-        CustomThreadFactory(String threadTag) {
+        CustomThreadFactory(String prefix, String threadTag) {
             SecurityManager s = System.getSecurityManager();
             group = (s != null)
                     ? s.getThreadGroup()
                     : Thread.currentThread().getThreadGroup();
             this.threadTag = String.format("%s-%s-%s-",
-                    THREAD_NAME_PREFIX, poolNumber.getAndIncrement(), threadTag);
+                    prefix, poolNumber.getAndIncrement(), threadTag);
         }
 
         @Override
